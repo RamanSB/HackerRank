@@ -6,6 +6,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
+ * Problem: https://www.hackerrank.com/challenges/java-string-tokens/problem
+ *
  * ---Input---
  * Input string: s
  * ---Constraints---
