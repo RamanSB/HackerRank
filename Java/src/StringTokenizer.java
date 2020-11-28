@@ -38,6 +38,7 @@ public class StringTokenizer{
 
     public static void main(String[] args){
         Scanner scan = new Scanner(System.in);
+        if(!scan.hasNext()) { System.out.print(0);return;}
         String s = scan.nextLine();
         StringTokenizer tokenizer = new StringTokenizer(s);
         tokenizer.splitStringOnNoneTokenChars();
