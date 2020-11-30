@@ -25,16 +25,16 @@ public class MyRegexSolution{
     }
 }
 
-
-
-/*
+/**
 A.B.C.D
 let X = {A,B,C,D} - the values of X can be any values between 0 to 255 (inclusive) [0,255]
 
 Values such as 1, 21, 9, 92, 12 (Any value up to 2 digits) can be captured by \\d{1,2}
 3 Digit values starting with 0,1 or 2 can be captured by: ((0|1)\\d{2}|2[012345]{2})
 3 Digit values up to 255
-2([01234][0123456789]|[5][012345])
+2([01234][\d]|[5][012345]) - Covers any number from 200-255
+(0|1)\\d{2} - Any number 3 digit number beginning with 0 or 1, i..e 012, 159
+\\d{1,2} - Any 1 or 2 digit number.
  */
 
 class MyRegex {
