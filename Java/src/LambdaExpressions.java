@@ -14,28 +14,37 @@ class MyMath {
         return p.check(num);
     }
 
+    public PerformOperation isOdd() {
+        return (x) -> x % 2 != 0;
+    }
 
-    PerformOperation isOdd = x -> x%2 != 0;
-    PerformOperation isPrime = (x) -> {
-        if(x%2==0){
-            return false;
-        }else{
-            for(int i=0; i<i/2; i++){
-                if(x%i == 0){
-                    return false;
+    public PerformOperation isPrime() {
+        return (x) -> {
+            if (x == 2) {
+                return true;
+            }
+            if (x % 2 == 0 & x != 2) {
+                return false;
+            } else {
+                for (int i = 1; i < x / 2; i++) {
+                    if (i % x == 0) {
+                        return false;
+                    }
                 }
             }
-        }
-        return true;
-    };
-    PerformOperation isPalindrome = (x) -> {
-        String numberString = ""+x;
-        String reverseString = new StringBuilder(numberString).reverse().toString();
-        return numberString.equals(reverseString);
-    };
+            return true;
+        };
+    }
+
+    public PerformOperation isPalindrome() {
+        return (x) -> {
+            String numberString = "" + x;
+            String reverseString = new StringBuilder(numberString).reverse().toString();
+            return numberString.equals(reverseString);
+        };
+    }
 
 }
-
 
 
 public class LambdaExpressions {
