@@ -1,6 +1,6 @@
 /**
  * MD5 (Message-Digest algorithm 5) is a widely-used cryptographic hash function with a 128-bit hash value.
- * 
+ *
  * Problem:
  * 1) https://www.hackerrank.com/challenges/java-md5/problem (Line 52 change string parameter to "MD5")
  * 2) https://www.hackerrank.com/challenges/sha-256/problem (Line 52 change string parameter to "SHA-256")
@@ -49,7 +49,7 @@ public class MD5 {
         String inputString = scanner.nextLine();
         scanner.close();
         try {
-            MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
+            MessageDigest messageDigest = MessageDigest.getInstance("MD5");
             messageDigest.update(inputString.getBytes());
             byte[] hash = messageDigest.digest();
             for (byte b : hash) {
