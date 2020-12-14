@@ -33,13 +33,14 @@
  */
 import java.util.*;
 
-class Checker implements Comparator<Player>{
+class Checker implements Comparator<Player>{ //if no generics are used then Comparator<Object> is assumed.
 
     public int compare(Player p1, Player p2){
         if(p1.score == p2.score){
-            return p1.name.compareTo(p2.name);
+            return p1.name.compareTo(p2.name); //sorts the name alphabetically
         }
         return -(p1.score - p2.score); //if player1's score > player2's score return positive value (moves p1 ahead of p2) [The negative negates this]
+        //In essence the - implies to sort in descending order. (if a negative int is returned) (p2 goes before p1).
     }
 }
 
