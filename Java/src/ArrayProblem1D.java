@@ -27,42 +27,79 @@
  *
  *
  * Initial thoughts: Perhaps some form of recursive approach can be taken? Trying to identify what could be a possible base case?
- * Starting off by defining each form of movement: step forward/back, leap forward. Thinking of a Breadth-first-search:
+ * Starting off by defining each form of movement: step forward/back, leap forward. Thinking of a (backed by Queue) Breadth-first-search:
  * https://www.baeldung.com/java-breadth-first-search. Need to explore all possible movements from each node/cell.
+ * Also thinking that if we have a very long array (i.e. n is large) we should opt for a (backed by Stack) depth first search, which is useful
+ * when the target node is far away from the source i.e. n is big.
+ *
+ * Approach: Attempted a Breadth First Search (Which checks each possible move after a possible move) - Uses a Queue.
  */
 
+import java.time.Duration;
+import java.time.LocalTime;
 import java.util.*;
-
+/*
+2
+6 5
+0 0 0 1 1 1
+6 3
+0 0 1 1 1 0
+ */
 public class ArrayProblem1D {
 
-    static int currIdx = 0;
+    static Queue<Integer> queue = new ArrayDeque<>();
 
     public static boolean canWin(int leap, int[] game) {
-       while(currIdx < game.length){
-
-       }
+        LocalTime startTime = LocalTime.now();
+        Duration duration = Duration.ofSeconds(5);
+        //Duration debugDuration = Duration.ofSeconds(60);
+        System.out.println("---Starting simulation---");
+        queue.add(0);
+        while(!queue.isEmpty() && LocalTime.now().isBefore(startTime.plus(duration))){
+            int currentNode = queue.poll();
+            System.out.println("Visiting index: " + currentNode);
+            if(currentNode >= game.length - 1){
+                queue.clear();
+                return true;
+            }else{
+                if(canWalkForward(game, currentNode)) queue.add(currentNode + 1);
+                if(canLeapForward(game, leap, currentNode)) queue.add(currentNode + leap);
+                if(canWalkBackward(game, currentNode)) queue.add(currentNode - 1);
+                System.out.println("x");
+            }
+        }
+        queue.clear();
+        return false;
     }
 
-    private static boolean canWalkForward(int[] game){
-        boolean canWalkForward = game[currIdx+1] == 0;
-        currIdx = canWalkForward ? currIdx + 1 : currIdx;
+    private static boolean canWalkForward(int[] game, int currentNode){
+        if(currentNode + 1 > game.length-1){
+            System.out.println("Can walk forward: " + true);
+            return true;
+        }
+        boolean canWalkForward = game[currentNode+1] == 0;
+        System.out.println("Can walk forward: " + canWalkForward);
         return canWalkForward;
     }
 
-    private static boolean canWalkBackward(int[] game){
-        boolean canWalkBackward = game[currIdx-1] == 0;
-        currIdx = canWalkBackward ? currIdx - 1 : currIdx;
+    private static boolean canWalkBackward(int[] game, int currentNode){
+        if(currentNode - 1 < 0){
+            System.out.println("Can walk backwards: " + false);
+            return false;
+        }
+        boolean canWalkBackward = game[currentNode-1] == 0;
+        System.out.println("Can walk backwards: " + canWalkBackward);
         return canWalkBackward;
     }
 
-    private static boolean canLeapForward(int[] game, int leap){
-        boolean canLeapForward = game[currIdx+leap] == 0;
-        currIdx = canLeapForward ? currIdx + leap : currIdx;
+    private static boolean canLeapForward(int[] game, int leap, int currentNode){
+        if(currentNode + leap > game.length - 1){
+            System.out.println("Can leap forward: " + true);
+            return true;
+        }
+        boolean canLeapForward = game[currentNode+leap] == 0;
+        System.out.println("Can leap forward: " + canLeapForward);
         return canLeapForward;
-    }
-
-    private boolean checkIfWon(int[] game){
-        return currIdx >= game.length;
     }
 
     public static void main(String[] args) {
