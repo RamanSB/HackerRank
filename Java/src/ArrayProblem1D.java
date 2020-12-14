@@ -47,28 +47,36 @@ import java.util.*;
  */
 public class ArrayProblem1D {
 
-    static Queue<Integer> queue = new ArrayDeque<>();
+    static Stack<Integer> stack = new Stack<>();
 
     public static boolean canWin(int leap, int[] game) {
         LocalTime startTime = LocalTime.now();
         Duration duration = Duration.ofSeconds(5);
         //Duration debugDuration = Duration.ofSeconds(60);
         System.out.println("---Starting simulation---");
-        queue.add(0);
-        while(!queue.isEmpty() && LocalTime.now().isBefore(startTime.plus(duration))){
-            int currentNode = queue.poll();
+        Set<Integer> visitedNodes = new HashSet<>(); //nodes already visited - we don't want to get ourselves in to an infinite loop of traversing the same nodes.
+        stack.push(0); //root node added to stack
+        while(!stack.isEmpty() && LocalTime.now().isBefore(startTime.plus(duration))){
+            int currentNode = stack.pop();
             System.out.println("Visiting index: " + currentNode);
+            visitedNodes.add(currentNode);
             if(currentNode >= game.length - 1){
-                queue.clear();
+                stack.clear();
+                System.out.println(visitedNodes);
                 return true;
             }else{
-                if(canWalkForward(game, currentNode)) queue.add(currentNode + 1);
-                if(canLeapForward(game, leap, currentNode)) queue.add(currentNode + leap);
-                if(canWalkBackward(game, currentNode)) queue.add(currentNode - 1);
-                System.out.println("x");
+                if(canWalkForward(game, currentNode)){
+                    if(!visitedNodes.contains(currentNode+1)) stack.push(currentNode + 1);
+                }
+                if(canLeapForward(game, leap, currentNode)){
+                    if(!visitedNodes.contains(currentNode+leap)) stack.push(currentNode + leap);
+                }
+                if(canWalkBackward(game, currentNode)) {
+                    if(!visitedNodes.contains(currentNode-1)) stack.push(currentNode - 1);
+                }
             }
         }
-        queue.clear();
+        stack.clear();
         return false;
     }
 
