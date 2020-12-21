@@ -11,7 +11,7 @@
  */
 import java.util.Scanner;
 
-class MyCalculator {
+public class MyCalculator {
     /*
      * Create the method long power(int, int) here.
      */
@@ -23,7 +23,7 @@ class MyCalculator {
 
 }
 
-public class Solution {
+class SolutionCalculator {
     public static final MyCalculator my_calculator = new MyCalculator();
     public static final Scanner in = new Scanner(System.in);
 
