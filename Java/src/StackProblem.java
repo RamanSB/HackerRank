@@ -1,5 +1,4 @@
-import java.util.Scanner;
-import java.util.Stack;
+import java.util.*;
 
 /**
  * Problem: https://www.hackerrank.com/challenges/java-stack/problem
@@ -16,45 +15,79 @@ import java.util.Stack;
  * Consider the first 3 characters, we push them on to our Stack...
  * [ (,{,( ]
  * Now consider the last 3 elements: ), ], )
+ *
+ * Anytime we come across an element that is an end/closing brace or NOT a start/opening Brace we will pop our stack and
+ * check if the combination of the concatenated value between the popped value and closing brace form a a balanced bracket,
+ * i.e. balanced List on line 28... () [] {}
  */
 public class StackProblem {
 
     public static void main(String []argh) {
         Scanner sc = new Scanner(System.in);
-        String[] balanced = {"()", "[]", "{}"};
+        boolean isBalanced = false;
+        List<String> balanced = Arrays.asList("()", "[]", "{}");
+        List<Character> startBraces = Arrays.asList('{','[','(');
         while (sc.hasNext()) {
+            Deque<Character> characterStack = new ArrayDeque<>();
             String input = sc.next();
             //Complete the code
-            if(input.length() % 2 != 0){
+            if (input.length() % 2 != 0) {
                 System.out.println("false");
+                continue;
             }
-            else if(input.replaceAll("\\(\\)|\\[\\]|\\{\\}", "").length()==0){ //Captures examples such as []() or (){}[]
-                System.out.println("true");
-            }
-            else{
-                boolean isBalanced = false;
-                Stack<Character> characterStack = new Stack<>();
-                char[] charArray = input.toCharArray();
-                for(int i=0; i<charArray.length; i++){
-                    if(i<charArray.length/2){
-                        //System.out.println("Pushing " + charArray[i] + " on to stack.");
-                        characterStack.push(charArray[i]);
+            char[] characters = input.toCharArray();
+            for(int i=0; i<characters.length; i++){
+                if(startBraces.contains(characters[i])){
+                    characterStack.push(characters[i]);
+                }else{
+                    if(characterStack.peek()!=null) {
+                        String poppedVal = characterStack.pop().toString();
+                        isBalanced = balanced.contains(poppedVal.concat(characters[i] + ""));
                     }else{
-                        char poppedValue = characterStack.pop();
-                        //System.out.println("Popping " + poppedValue + " from to stack.");
-                        String value = (poppedValue+"").concat(charArray[i]+"");
-                        //System.out.println(value);
-                        if(value.matches("\\(\\)|\\[\\]|\\{\\}")){
-                            isBalanced = true;
-                        }else{
-                            isBalanced = false;
-                        }
+                        isBalanced = false;
+                        break;
                     }
                 }
-                System.out.println(isBalanced);
             }
+        System.out.println(isBalanced);
         }
-
     }
 }
 
+//
+//        true
+//        false
+//        true
+//        false
+//        false
+//        false
+//        false
+//        false
+//        true
+//        false
+//        false
+//        true
+//        false
+//        false
+//        true
+//        true
+//        true
+//        true
+//                true
+//                false
+//                true
+//                false
+//                false
+//                false
+//                false
+//                false
+//                true
+//                false
+//                false
+//                false
+//                false
+//                false
+//                true
+//                true
+//                true
+//                true
