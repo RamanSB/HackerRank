@@ -28,6 +28,9 @@ public class StackProblem {
             if(input.length() % 2 != 0){
                 System.out.println("false");
             }
+            else if(input.replaceAll("\\(\\)|\\[\\]|\\{\\}", "").length()==0){ //Captures examples such as []() or (){}[]
+                System.out.println("true");
+            }
             else{
                 boolean isBalanced = false;
                 Stack<Character> characterStack = new Stack<>();
@@ -41,7 +44,7 @@ public class StackProblem {
                         //System.out.println("Popping " + poppedValue + " from to stack.");
                         String value = (poppedValue+"").concat(charArray[i]+"");
                         //System.out.println(value);
-                        if(value.matches("\\(\\)|\\[\\]|\\{\\}]")){
+                        if(value.matches("\\(\\)|\\[\\]|\\{\\}")){
                             isBalanced = true;
                         }else{
                             isBalanced = false;
