@@ -1,6 +1,7 @@
 import java.time.Duration;
 import java.time.LocalTime;
 import java.util.Arrays;
+import java.util.stream.Collector;
 import java.util.stream.Stream;
 
 /**
@@ -30,10 +31,10 @@ public class RecursiveDigitSum {
             return Integer.parseInt(n);
         }
         long super_digit = 0;
-        for(char val : n.toCharArray()){
-            super_digit += Integer.parseInt(val+"");
+        for(int i=0; i<n.length(); i++){
+            super_digit += Character.getNumericValue(n.charAt(i));
         }
-        return superDigit(super_digit+"");
+        return superDigit(Long.toString(super_digit));
     }
 
 
