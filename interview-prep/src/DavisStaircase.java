@@ -1,42 +1,36 @@
-import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.IOException;
+import java.time.Duration;
+import java.time.LocalTime;
 import java.util.Scanner;
 
 public class DavisStaircase {
 
     // Complete the stepPerms function below.
-    static int stepPerms(int n) {
+    static int stepPerms(int n, int[] memo) {
         if(n==1){
             return 1;
-        }else if(n==2){
+        }
+        if(n==2){
             return 2;
-        }else if(n==3){
+        }
+        if(n==3){
             return 4;
         }
-        return stepPerms(n-1) + stepPerms(n-2) + stepPerms(n-3);
-    }
-
-    private static final Scanner scanner = new Scanner(System.in);
-
-    public static void main(String[] args) throws IOException {
-        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
-
-        int s = scanner.nextInt();
-        scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
-
-        for (int sItr = 0; sItr < s; sItr++) {
-            int n = scanner.nextInt();
-            scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
-
-            int res = stepPerms(n);
-
-            bufferedWriter.write(String.valueOf(res));
-            bufferedWriter.newLine();
+        if(memo[n-1] != 0) {
+            return memo[n - 1];
         }
-
-        bufferedWriter.close();
-
-        scanner.close();
+        memo[n-1] = stepPerms(n-1, memo) + stepPerms(n-2, memo) + stepPerms(n-3, memo);
+        return memo[n-1];
     }
+
+    public static void main(String[] args){
+        int n = 10;
+        int[] memo = new int[n];
+        LocalTime startTime = LocalTime.now();
+        System.out.println(stepPerms(10, memo));
+        LocalTime endTime = LocalTime.now();
+        Duration duration = Duration.between(startTime, endTime);
+        System.out.format("Time taken: %ds %fms", duration.getSeconds()*1000, duration.getNano()/1E6);
+    }
+
 }
