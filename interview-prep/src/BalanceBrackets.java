@@ -16,6 +16,7 @@ public class BalanceBrackets {
     static String isBalanced(String s) {
 
         List<Character> openBracketList = Arrays.asList('{', '(', '[');
+        List<Character> closedBracketList = Arrays.asList('}',')',']');
         List<String> matchedBracketList = Arrays.asList("{}","[]","()");
 
         Deque<Character> stack = new ArrayDeque<>();
@@ -23,6 +24,12 @@ public class BalanceBrackets {
         for(int i=0; i<s.length(); i++){
             try {
                 char character = s.charAt(i);
+                if(i==0 && !openBracketList.contains(character) //if first char is not an open bracket then cannot be balanced.
+                        || i==s.length()-1 && !closedBracketList.contains(character)//if last char is not a closed bracket then cannot be balanced.
+                ){
+                    isBalanced = false;
+                    break;
+                }
                 if (openBracketList.contains(character)) {
                     stack.push(character);
                 } else {
@@ -40,7 +47,9 @@ public class BalanceBrackets {
     }
 
     public static void main(String[] args){
-        String input = "}][}}(}][))]";
+        String input = "{{}(";
+
+
         System.out.println(isBalanced(input));
     }
 
