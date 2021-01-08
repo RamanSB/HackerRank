@@ -11,6 +11,7 @@ public class LargestRectangleStack {
         int result = largestRectangle(adjBuildings);
         System.out.format("For %d adjacent buildings as described by;\n %s\n, the largest area is: %d",
                 n, Arrays.toString(adjBuildings), result);
+        
     }
 
     public static int largestRectangle(int[] adjBuildings) {
@@ -18,27 +19,27 @@ public class LargestRectangleStack {
         for (int building : adjBuildings) {
             adjBuildingStack.push(building);
         }
-        int area = 0;
-        while (!adjBuildingStack.isEmpty()) {
-            int minimum = adjBuildingStack.stream().min(Comparator.comparingInt(x -> x)).get();
-            System.out.println("minimum: " + minimum);
-            int value = adjBuildingStack.size() * minimum;
-            if (value > area) {
-                area = value;
-            } else {
-                System.out.println("The largest area found is currently: " + area);
-            }
+        int[] area = new int[adjBuildings.length];
+        int i=0;
+        while (adjBuildingStack.size() != 1) {
+            int minimum = adjBuildingStack.stream().min(Comparator.comparingInt(x->x)).get();
+            System.out.println("Minimum to remove: " + minimum);
+            area[i]= adjBuildingStack.size() * minimum;
+            System.out.println("Current Area:" + area[i]);
+            while(adjBuildingStack.contains(minimum)){
+                if(adjBuildingStack.peekLast() > adjBuildingStack.peekFirst()){ //1st value > last value
+                    System.out.println("Removing: " + adjBuildingStack.pollFirst());
 
-            int firstVal = adjBuildingStack.peekLast();
-            int lastVal = adjBuildingStack.peekFirst();
-            System.out.println("First val: " + firstVal + "| Last val: " + lastVal);
-            if (firstVal < lastVal) {
-                System.out.println("Removing: " + adjBuildingStack.pollLast());
-            } else {
-                System.out.println("Removing: " + adjBuildingStack.pollFirst()); //pop last building - but this is incorrect, we want to remove the building that is smallest between the ends
+                }else if(adjBuildingStack.peekLast() == adjBuildingStack.peekFirst()){
+                    //Nothing
+                }else{
+                    System.out.println("Removing: " + adjBuildingStack.pollLast());
+                }
             }
-            System.out.println(adjBuildingStack.toString());
+            i++;
         }
-        return area;
+        System.out.println();
+        return Arrays.stream(area).max().getAsInt();
+
     }
 }
