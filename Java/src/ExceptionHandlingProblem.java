@@ -2,8 +2,8 @@
  * Problem: https://www.hackerrank.com/challenges/java-exception-handling-try-catch/problem
  */
 
-import java.io.*;
-import java.util.*;
+import java.util.InputMismatchException;
+import java.util.Scanner;
 
 public class ExceptionHandlingProblem {
 
