@@ -28,7 +28,7 @@ import java.util.*;
  * Samiha
  * Rumpa
  */
-public class JavaSortProblem {
+public class ComparatorSortProblem {
 
     public static void main(String[] args){
             Scanner in = new Scanner(System.in);
@@ -44,7 +44,7 @@ public class JavaSortProblem {
                 studentList.add(st);
 
                 testCases--;
-            }Ò
+            }
 
         studentList.sort(new Comparator<Student>() {
             @Override
